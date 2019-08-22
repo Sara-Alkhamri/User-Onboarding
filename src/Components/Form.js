@@ -43,29 +43,30 @@ const NewForm = ({errors, touched, values, status}) => {
                     <p className="errors">{errors.password}</p>
                 )}
 
-                <label className="checkbox">Remember Me
-                <Field name="remember" type="checkbox" checked={values.remember} />
+                <label className="checkbox">Agree to Terms of Service
+                <Field name="terms" type="checkbox" checked={values.terms} />
                 <span className="checkmark" />
-                {touched.remember && errors.remember && (
-                    <p className="error">{errors.remember}</p>
+                {touched.terms && errors.terms && (
+                    <p className="error">{errors.terms}</p>
                 )}
                 </label>
 
                 <button type="submit">
                 </button>
             </Form>
-
-
-
-
-
-
-
+            
+            {users.map(user => (
+                <p key={user.id}>
+                <h3>{user.name}</h3>
+                <p>{user.role}</p>
+                <p>{user.email}</p>
+                </p>
+            ))}
+                    
 
         </div>
+        
     )
-
-
 
 }
 
