@@ -3,6 +3,7 @@ import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import '../App.css';
+import { restElement } from '@babel/types';
 
 const NewForm = ({errors, touched, values, status}) => {
     const [users, setUsers] = useState([]);
@@ -70,4 +71,52 @@ const NewForm = ({errors, touched, values, status}) => {
 
 }
 
-export default NewForm;
+
+const formikHOC = withFormik ({
+    mapPropsToValues({ name, role, email, password, terms }) {
+        return {
+            name: name || "",
+            role: role || "",
+            email: email || "",
+            password: password || "",
+            terms: terms || false
+        };
+    },
+
+    validationSchema: Yup.object().shape({
+        name: Yup.string()
+        .required("What's you name?"),
+
+        role: Yup.string()
+        .required("What's your role?"),
+
+        email: Yup.string()
+        .required("What's your email?"),
+
+        password: Yup.string()
+        .required("Password Required"),
+
+        terms: Yup.bool()
+        .oneOf([true], 'Must Agree to Terms of Service')
+    }),
+
+    handleSubmit(values, {setStatus, resetForm}) {
+        axios
+            .post("https://reqres.in/api/users/", values)
+            .then(response => {
+                console.log("handelSubmit: then: response: ", response);
+                setStatus(response.data);
+                restElement();
+            })
+            .catch (error => console.log("handelSubmit: then: error: ", error))
+    }
+        
+})
+
+const NewFormWithFormik = formikHOC(NewForm);
+
+
+
+
+
+export default NewFormWithFormik;
