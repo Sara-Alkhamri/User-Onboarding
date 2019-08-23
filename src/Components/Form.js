@@ -3,9 +3,9 @@ import { Form, Field, withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import '../App.css';
-import { restElement } from '@babel/types';
 
-const NewForm = ({errors, touched, values, status}) => {
+
+const NewForm = ({errors, touched, values, status }) => {
     const [users, setUsers] = useState([]);
     console.log(users)
 
@@ -106,7 +106,7 @@ const formikHOC = withFormik ({
             .then(response => {
                 console.log("handelSubmit: then: response: ", response);
                 setStatus(response.data);
-                restElement();
+                resetForm();
             })
             .catch (error => console.log("handelSubmit: then: error: ", error))
     }
@@ -114,9 +114,5 @@ const formikHOC = withFormik ({
 })
 
 const NewFormWithFormik = formikHOC(NewForm);
-
-
-
-
 
 export default NewFormWithFormik;
